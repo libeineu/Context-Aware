@@ -23,6 +23,7 @@ The implementation of "Does Multi-Encoder Help? A Case Study on Context-Aware Ne
 ### Train context-aware model
 
 > `bash runs/train-en2ru.sh inside-context`
+>
 > `bash runs/train-en2ru.sh outside-context`
 
 ### Train model with gaussian noise
@@ -32,6 +33,9 @@ The implementation of "Does Multi-Encoder Help? A Case Study on Context-Aware Ne
 > ## Infer
 
 > `bash runs/translate-en2ru.sh baseline`
+>
 > `bash runs/translate-en2ru.sh inside-context`
+>
 > `bash runs/translate-en2ru.sh outside-context`
+>
 > `bash runs/translate-en2ru.sh gaussian`
