@@ -30,7 +30,7 @@ The implementation of "Does Multi-Encoder Help? A Case Study on Context-Aware Ne
 
 > `bash runs/train-en2ru.sh gaussian`
 
-> ## Infer
+## Infer
 
 > `bash runs/translate-en2ru.sh baseline`
 >
