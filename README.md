@@ -4,7 +4,10 @@ The implementation of "Does Multi-Encoder Help? A Case Study on Context-Aware Ne
 
 > This code is based on [Fairseq v0.6.2](https://github.com/pytorch/fairseq/tree/v0.6.2)
 
-## Installation
+## Requirements and Installation
+
+* [PyTorch](http://pytorch.org/) version >= 1.0.0
+* Python version >= 3.6
 
 1. `pip3 install -r requirements.txt`
 2. `python3 setup.py develop`
