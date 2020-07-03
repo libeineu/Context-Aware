@@ -6,9 +6,9 @@ The implementation of "Does Multi-Encoder Help? A Case Study on Context-Aware Ne
 
 ## Installation
 
-1. `pip install -r requirements.txt`
-2. `python setup.py develop`
-3. `python setup.py install`
+1. `pip3 install -r requirements.txt`
+2. `python3 setup.py develop`
+3. `python3 setup.py install`
 
 ## Prepare Training Data
 
