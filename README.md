@@ -42,3 +42,25 @@ The implementation of "Does Multi-Encoder Help? A Case Study on Context-Aware Ne
 > `bash runs/translate-en2ru.sh outside-context`
 >
 > `bash runs/translate-en2ru.sh gaussian`
+
+## Citation
+
+```bibtex
+@inproceedings{li-etal-2020-multi,
+    title = "Does Multi-Encoder Help? A Case Study on Context-Aware Neural Machine Translation",
+    author = "Li, Bei  and
+      Liu, Hui  and
+      Wang, Ziyang  and
+      Jiang, Yufan  and
+      Xiao, Tong  and
+      Zhu, Jingbo  and
+      Liu, Tongran  and
+      li, changliang",
+    booktitle = "Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics",
+    month = jul,
+    year = "2020",
+    publisher = "Association for Computational Linguistics",
+    url = "https://www.aclweb.org/anthology/2020.acl-main.322",
+    pages = "3512--3518",
+}
+```
