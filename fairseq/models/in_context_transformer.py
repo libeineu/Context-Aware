@@ -110,6 +110,8 @@ class InContextTransformerModel(FairseqModel):
                             help='if set, fix pretrained params')
         parser.add_argument('--start-step', type=int, default=0,
                             help='start step of training for lr decay')
+        parser.add_argument('--ignore', default=False, action='store_true',
+                            help='ignore context in inference')
         # fmt: on
 
     @classmethod
@@ -768,8 +770,8 @@ class ContextTransformerDecoderLayer(nn.Module):
                 dropout=args.attention_dropout,
             )
             self.context_attn_layer_norm = LayerNorm(self.embed_dim)
-
             self.gate_linear = Linear(2*self.embed_dim, 1)
+            self.ignore = args.ignore
 
         self.fc1 = Linear(self.embed_dim, args.decoder_ffn_embed_dim)
         self.fc2 = Linear(args.decoder_ffn_embed_dim, self.embed_dim)
@@ -850,9 +852,12 @@ class ContextTransformerDecoderLayer(nn.Module):
             )
             s_x = F.dropout(s_x, p=self.dropout, training=self.training)
 
-            cs_x = torch.cat((c_x, s_x), dim=-1)
-            g = torch.sigmoid(self.gate_linear(cs_x))
-            x = g * c_x + (1 - g) * s_x
+            if self.training or not self.ignore:
+                cs_x = torch.cat((c_x, s_x), dim=-1)
+                g = torch.sigmoid(self.gate_linear(cs_x))
+                x = g * c_x + (1 - g) * s_x
+            else:
+                x = s_x
             
             x = residual + x
             x = self.maybe_layer_norm(self.encoder_attn_layer_norm, x, after=True)

@@ -5,6 +5,7 @@ model_root_dir=checkpoints
 
 # set tag
 tag=$1
+flag=$2
 
 # set device
 gpu=0
@@ -35,21 +36,26 @@ model_dir=$model_root_dir/$tag
 
 checkpoint=checkpoint_best.pt
 
+cmd="python3 -u generate.py
+data-bin/$data_dir
+--task $task
+--path $model_dir/$checkpoint
+--gen-subset $who
+--batch-size $batch_size
+--beam $beam
+--lenpen $length_penalty
+--output $model_dir/translation.$data_dir.$who.unsort
+--quiet
+--remove-bpe"
+
+if [ $flag == "ignore" ] || [ $task == "translation_context" ]; then
+        cmd=${cmd}" --model-overrides {\'ignore\':True} "
+fi
+
 output=$model_dir/translation.$data_dir.$who.log
 
 export CUDA_VISIBLE_DEVICES=$gpu
-
-python3 -u generate.py \
-data-bin/$data_dir \
---task $task \
---path $model_dir/$checkpoint \
---gen-subset $who \
---batch-size $batch_size \
---beam $beam \
---lenpen $length_penalty \
---output $model_dir/translation.$data_dir.$who.unsort \
---quiet \
---remove-bpe | tee $output
+eval $cmd | tee $output
 
 python3 rerank.py $model_dir/translation.$data_dir.$who.unsort $model_dir/translation.$data_dir.$who
 

@@ -43,6 +43,12 @@ The implementation of "Does Multi-Encoder Help? A Case Study on Context-Aware Ne
 >
 > `bash runs/translate-en2ru.sh gaussian`
 
+## Infer without context
+
+> `bash runs/translate-en2ru.sh inside-context ignore`
+>
+> `bash runs/translate-en2ru.sh outside-context ignore`
+
 ## Citation
 
 ```bibtex

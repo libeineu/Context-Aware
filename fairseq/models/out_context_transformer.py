@@ -114,6 +114,8 @@ class OutContextTransformerModel(FairseqModel):
                             help='if set, add gaussian noise to encoder output')
         parser.add_argument('--noise-ratio', type=float, default=0.3,
                             help='ratio of noise')
+        parser.add_argument('--ignore', default=False, action='store_true',
+                            help='ignore context in inference')
         # fmt: on
 
     @classmethod
@@ -195,6 +197,7 @@ class OutContextTransformerEncoder(FairseqEncoder):
         self.gate_linear = Linear(2 * self.embed_dim, 1)
         self.add_noise = args.add_noise
         self.noise_ratio = args.noise_ratio
+        self.ignore = args.ignore
 
     def forward(self, src_tokens, src_lengths):
         c_encoder_out = self.c_encoder(src_tokens["context"], src_lengths["context"])
@@ -214,11 +217,12 @@ class OutContextTransformerEncoder(FairseqEncoder):
             need_weights=(not self.training),
         )
 
-        cs_x = torch.cat((c_x, s_out), dim=-1)
-        g = torch.sigmoid(self.gate_linear(cs_x))
-        s_out = g * c_x + (1 - g) * s_out
+        if self.training or not self.ignore:
+            cs_x = torch.cat((c_x, s_out), dim=-1)
+            g = torch.sigmoid(self.gate_linear(cs_x))
+            s_out = g * c_x + (1 - g) * s_out
 
-        if self.add_noise and self.training:
+        if self.training and self.add_noise:
             noise = torch.randn_like(s_out)
             s_out += self.noise_ratio * noise
 
