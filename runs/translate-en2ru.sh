@@ -48,7 +48,7 @@ data-bin/$data_dir
 --quiet
 --remove-bpe"
 
-if [ $flag == "ignore" ] || [ $task == "translation_context" ]; then
+if [ -n $flag ] && [ $flag == "ignore" ] && [ $task == "translation_context" ]; then
         cmd=${cmd}" --model-overrides {\'ignore\':True} "
 fi
 
